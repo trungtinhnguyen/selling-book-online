@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<decorators defaultdir="/decorators">
+    <excluded>
+        <pattern>/api*</pattern>
+    </excluded>
+
+    <decorator name="admin" page="admin.jsp">
+        <pattern>/quan-tri*</pattern>
+    </decorator>
+    <decorator name="web" page="web.jsp">
+        <pattern>/*</pattern>
+    </decorator>
+    <decorator name="auth" page="auth.jsp">
+        <pattern>/dang-nhap</pattern>
+        <pattern>/dang-ky</pattern>
+    </decorator>
+</decorators>

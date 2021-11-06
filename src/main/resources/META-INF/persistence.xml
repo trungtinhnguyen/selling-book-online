@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+    <persistence-unit name="persistence-data">
+        <class>com.example.entity.UserEntity</class>
+        <class>com.example.entity.PermissionEntity</class>
+        <class>com.example.entity.RoleEntity</class>
+        <class>com.example.entity.CategoryEntity</class>
+        <class>com.example.entity.PublisherEntity</class>
+        <class>com.example.entity.BookEntity</class>
+    </persistence-unit>
+</persistence>

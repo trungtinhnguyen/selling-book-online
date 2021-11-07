@@ -16,4 +16,12 @@ public class UserDto extends BaseDto{
     private String tell;
     private int status;
     private List<String> roles;
+
+    public List<String> getRoles () {
+        if (roles != null) {
+            return roles;
+        } else {
+            return null;
+        }
+    }
 }

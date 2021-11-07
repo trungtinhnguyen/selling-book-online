@@ -6,5 +6,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BaseDto {
-    private long id;
+    private Long id;
+
+    private boolean success;
+    private String message;
+    private String type;
 }

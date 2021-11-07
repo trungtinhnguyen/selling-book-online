@@ -2,7 +2,7 @@
 <%@ include file="/common/taglibs.jsp"%>
 <c:url var="loginPage" value="/dang-nhap"/>
 <c:url var="registerPage" value="/dang-ky"/>
-<c:url var="createAccountApi" value="/api/user/edit"/>
+<c:url var="createAccountApi" value="/api/user"/>
 <html>
 <head>
     <meta charset="UTF-8"/>

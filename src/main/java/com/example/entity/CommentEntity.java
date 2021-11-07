@@ -11,8 +11,8 @@ import javax.persistence.*;
 @Setter
 public class CommentEntity extends BaseEntity{
 
-    @Column (name = "commnet", columnDefinition = "TEXT")
-    private String code;
+    @Column (name = "content", columnDefinition = "TEXT")
+    private String content;
 
     @Column (name = "parentid")
     private Long parentID;

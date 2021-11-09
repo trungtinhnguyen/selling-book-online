@@ -50,7 +50,7 @@
                         <td>${book.imputedDate}</td>
                         <td>
                             <div class="nav">
-                                <a class="nav-link btn btn-outline-light" href="#"><i class="fas fa-edit"></i></a>
+                                <a class="nav-link btn btn-outline-light" href="<c:url value="/quan-tri/sach/chinh-sua?id=${book.id}"/>"><i class="fas fa-edit"></i></a>
                             </div>
                         </td>
                         <td>

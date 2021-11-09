@@ -2,10 +2,14 @@ package com.example.service.impl;
 
 import com.example.constant.MessageKey;
 import com.example.converter.BookConverter;
+import com.example.dto.BaseDto;
 import com.example.dto.BookDto;
+import com.example.dto.CommentDto;
 import com.example.entity.BookEntity;
 import com.example.repository.BookRepository;
+import com.example.repository.CommentRepository;
 import com.example.service.BookService;
+import com.example.service.CommentService;
 import com.example.util.FileUtils;
 import com.example.util.MessageUtils;
 import org.springframework.stereotype.Service;
@@ -19,11 +23,13 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookConverter bookConverter;
     private final MessageUtils messageUtils;
+    private final CommentService commentService;
 
-    public BookServiceImpl(BookRepository bookRepository, BookConverter bookConverter, MessageUtils messageUtils) {
+    public BookServiceImpl(BookRepository bookRepository, BookConverter bookConverter, MessageUtils messageUtils, CommentService commentService) {
         this.bookConverter = bookConverter;
         this.bookRepository = bookRepository;
         this.messageUtils = messageUtils;
+        this.commentService = commentService;
     }
 
     @Override
@@ -73,5 +79,14 @@ public class BookServiceImpl implements BookService {
            results.add(bookConverter.toDto(entity));
        });
        return results;
+    }
+
+    @Override
+    @Transactional
+    public void delete(long id) {
+        List<CommentDto> comments = commentService.findByBookId(id);
+        long[] commentIds =  comments.stream().mapToLong(BaseDto::getId).toArray();
+        commentService.delete(commentIds);
+        bookRepository.delete(id);
     }
 }

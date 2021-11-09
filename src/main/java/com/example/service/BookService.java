@@ -8,4 +8,5 @@ public interface BookService {
     BookDto findOne (Long id);
     BookDto save(BookDto dto);
     List<BookDto> findAll();
+    void delete(long id);
 }

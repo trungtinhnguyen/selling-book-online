@@ -1,9 +1,9 @@
 package com.example.util;
 
-import java.io.*;
-import java.net.URL;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 public class FileUtils {
 
@@ -16,9 +16,8 @@ public class FileUtils {
         return fileUtils;
     }
 
-    public static String getUploadFolder  () {
-        String classpath =  getInstance().getRootPath();
-        File uploadFolder = new File(classpath + "/uploads");
+    public String getUploadFolder  () {
+        File uploadFolder = new File("/home/tinhnguyen/2021/NienLuan/selling-book/uploads");
         if (!uploadFolder.exists() || !uploadFolder.isDirectory()) {
             if (!uploadFolder.mkdir()) {
                 throw new IllegalArgumentException("Cannot create folder: " + uploadFolder.getName());
@@ -27,13 +26,7 @@ public class FileUtils {
         return uploadFolder.getPath();
     }
 
-    public String getRootPath () {
-        URL url = getClass().getProtectionDomain().getCodeSource().getLocation();
-        return url.getPath();
-    }
-
-
-   public static void saveFile(String fileName, byte[] src) {
+   public void saveFile(String fileName, byte[] src) {
        OutputStream writer = null;
        try {
            File file = new File(fileName);

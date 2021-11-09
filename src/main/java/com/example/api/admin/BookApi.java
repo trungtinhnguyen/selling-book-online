@@ -4,8 +4,6 @@ import com.example.dto.BookDto;
 import com.example.service.BookService;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-
 @RestController (value = "adminBookApi")
 public class BookApi {
 

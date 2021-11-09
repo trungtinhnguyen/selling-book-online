@@ -91,6 +91,14 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
+    @Override
+    @Transactional
+    public void disable(long id) {
+        UserEntity entity = userRepository.findOne(id);
+        entity.setStatus(SystemConstant.NONACTIVE);
+        userRepository.save(entity);
+    }
+
     private boolean isUserExist (UserEntity newEntity)
     throws UsernameExistsException, TellExistsException, EmailExistsException
     {

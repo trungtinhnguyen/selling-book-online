@@ -32,6 +32,7 @@
                 <th>Thể loại</th>
                 <th>Giá</th>
                 <th>Ngày nhập</th>
+                <th>Tồn kho</th>
                 <th colspan="2">Thao tác</th>
             </tr>
             </thead>
@@ -48,6 +49,7 @@
                         </c:forEach>
                         <td>${book.price}</td>
                         <td>${book.imputedDate}</td>
+                        <td>${book.quantity}</td>
                         <td>
                             <div class="nav">
                                 <a class="nav-link btn btn-outline-light" href="<c:url value="/quan-tri/sach/chinh-sua?id=${book.id}"/>"><i class="fas fa-edit"></i></a>

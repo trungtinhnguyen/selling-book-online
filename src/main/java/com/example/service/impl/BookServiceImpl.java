@@ -7,7 +7,6 @@ import com.example.dto.BookDto;
 import com.example.dto.CommentDto;
 import com.example.entity.BookEntity;
 import com.example.repository.BookRepository;
-import com.example.repository.CommentRepository;
 import com.example.service.BookService;
 import com.example.service.CommentService;
 import com.example.util.FileUtils;
@@ -49,7 +48,8 @@ public class BookServiceImpl implements BookService {
     public BookDto save(BookDto dto) {
         BookEntity entity;
         BookDto result;
-        StringBuilder thumbnailPath = new StringBuilder(FileUtils.getUploadFolder());
+        FileUtils fileUtils = FileUtils.getInstance();
+        StringBuilder thumbnailPath = new StringBuilder(fileUtils.getUploadFolder());
         Map<String, String> message;
         if (dto.getId() == null) {
             thumbnailPath.append("/book-").append(bookRepository.count()+1).append(".jpg");
@@ -58,10 +58,11 @@ public class BookServiceImpl implements BookService {
         } else {
             BookEntity old = bookRepository.findOne(dto.getId());
             thumbnailPath.replace(0, thumbnailPath.length(), old.getThumbnail());
+            dto.setId(old.getId());
             dto.setImputedDate(new Date(old.getImputedDate()));
             message = messageUtils.loadMessage(MessageKey.UPDATED_SUCCESS);
         }
-        FileUtils.saveFile(thumbnailPath.toString(), Base64.getDecoder().decode(dto.getThumbnail().getBytes()));
+        fileUtils.saveFile(thumbnailPath.toString(), Base64.getDecoder().decode(dto.getThumbnail().getBytes()));
         dto.setThumbnail(thumbnailPath.toString());
         entity = bookConverter.toEntity(dto);
         result = bookConverter.toDto(bookRepository.save(entity));

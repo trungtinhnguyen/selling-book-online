@@ -4,6 +4,7 @@ import com.example.constant.SystemConstant;
 import com.example.dto.UserDto;
 import com.example.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,8 +22,11 @@ public class UserApi {
 
     @PostMapping(value = "/api/user")
     public UserDto createAccount (@RequestBody UserDto dto) {
-
         return userService.save(dto);
     }
 
+    @PutMapping (value = "/api/user")
+    public UserDto updateUserInfo (@RequestBody UserDto dto) {
+        return userService.save(dto);
+    }
 }

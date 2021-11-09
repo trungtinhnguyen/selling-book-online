@@ -1,5 +1,6 @@
 package com.example.controller.web;
 
+import com.example.util.FileUtils;
 import com.example.util.MessageUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,13 +12,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 @Controller ("webHomeController")
 public class HomeController {
 
     @RequestMapping (value = "/trang-chu", method = RequestMethod.GET)
-    public ModelAndView homePage () {
+    public ModelAndView homePage (HttpSession session) {
         return new ModelAndView("web/home");
     }
 

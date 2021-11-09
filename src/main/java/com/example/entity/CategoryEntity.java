@@ -12,10 +12,10 @@ import java.util.List;
 @Setter
 public class CategoryEntity extends BaseEntity{
 
-    @Column (name = "code", columnDefinition = "CHAR(10)")
+    @Column (name = "code", columnDefinition = "CHAR(100)")
     private String code;
 
-    @Column (name = "name", columnDefinition = "VARCHAR(100)")
+    @Column (name = "name")
     private String name;
 
     @OneToMany (mappedBy = "category", fetch = FetchType.LAZY)

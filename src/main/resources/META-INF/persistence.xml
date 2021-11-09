@@ -5,10 +5,12 @@
              version="2.0">
     <persistence-unit name="persistence-data">
         <class>com.example.entity.UserEntity</class>
-        <class>com.example.entity.PermissionEntity</class>
         <class>com.example.entity.RoleEntity</class>
         <class>com.example.entity.CategoryEntity</class>
         <class>com.example.entity.PublisherEntity</class>
         <class>com.example.entity.BookEntity</class>
+        <class>com.example.entity.BillEntity</class>
+        <class>com.example.entity.BillDetailEntity</class>
+        <class>com.example.entity.CommentEntity</class>
     </persistence-unit>
 </persistence>

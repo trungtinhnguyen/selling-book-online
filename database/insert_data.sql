@@ -1,9 +1,9 @@
-use sellingbooks;
+use bookstore;
 
-INSERT INTO permission (code, name) VALUES ('ADMIN', 'Access Admin Page');
-INSERT INTO permission (code, name) VALUES ('READ', 'Read');
-INSERT INTO permission (code, name) VALUES ('WRITE', 'Create and modify');
-INSERT INTO permission (code, name) VALUES ('DELETE', 'Delete');
+-- INSERT INTO permission (code, name) VALUES ('ADMIN', 'Access Admin Page');
+-- INSERT INTO permission (code, name) VALUES ('READ', 'Read');
+-- INSERT INTO permission (code, name) VALUES ('WRITE', 'Create and modify');
+-- INSERT INTO permission (code, name) VALUES ('DELETE', 'Delete');
 
 INSERT INTO role (code, name) VALUES ('ADMIN', 'Quản trị viên');
 INSERT INTO role (code, name) VALUES ('CUSTOMER', 'Khách hàng');
@@ -14,10 +14,10 @@ INSERT INTO role (code, name) VALUES ('CUSTOMER', 'Khách hàng');
 -- ADMIN - WRITE -- can create and modify data
 -- ADMIN - DELETE -- can detelate
 
-INSERT INTO role_permission (roleid, permissionid) VALUES (1,1);
-INSERT INTO role_permission (roleid, permissionid) VALUES (1,2);
-INSERT INTO role_permission (roleid, permissionid) VALUES (1,3);
-INSERT INTO role_permission (roleid, permissionid) VALUES (1,4);
+-- INSERT INTO role_permission (roleid, permissionid) VALUES (1,1);
+-- INSERT INTO role_permission (roleid, permissionid) VALUES (1,2);
+-- INSERT INTO role_permission (roleid, permissionid) VALUES (1,3);
+-- INSERT INTO role_permission (roleid, permissionid) VALUES (1,4);
 
 INSERT INTO user (username, fullname, password, email, tell, address, status)
 VALUES (
@@ -54,4 +54,15 @@ VALUES (
 INSERT INTO user_role (userid, roleid) VALUES (1, 1);
 INSERT INTO user_role (userid, roleid) VALUES (2, 2);
 INSERT INTO user_role (userid, roleid) VALUES (3, 2);
+
+-- Category --
+INSERT INTO category (code, name) VALUE ("IT", "Công Nghệ Thông Tin");
+INSERT INTO category (code, name) VALUE ("TOAN-HOC", "Toán Học");
+INSERT INTO category (code, name) VALUE ("VAT-LY", "Vật Lý");
+INSERT INTO category (code, name) VALUE ("TRUYEN-NGAN", "Truyện Ngắn");
+
+INSERT INTO publisher (code, name) VALUE ("DHCT", "Nhà xuất bản Đại Học Cần Thơ");
+INSERT INTO publisher (code, name) VALUE ("BK-HN", "Nhà xuất bản Bách Khoa Hà Nội");
+INSERT INTO publisher (code, name) VALUE ("GDVN", "Nhà xuất bản Giáo Dục Việt Nam");
+
 

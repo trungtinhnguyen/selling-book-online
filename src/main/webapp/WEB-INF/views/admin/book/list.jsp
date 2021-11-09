@@ -36,25 +36,31 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
+
                 <c:forEach var="book" items="${model}">
-                    <td>${book.id}</td>
-                    <td>${book.name}</td>
-                    <td>${book.categoryCode}</td>
-                    <td>${book.price}</td>
-                    <td>${book.inputDate}</td>
-                    <td>
-                        <div class="nav">
-                            <a class="nav-link btn btn-outline-light" href="#"><i class="fas fa-edit"></i></a>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="nav">
-                           <button class="nav-link btn btn-outline-light" onclick="deleteBook(${book.id})">
-                               <i class="fas fa-trash"></i>
-                           </button>
-                        </div>
-                    </td>
+                    <tr>
+                        <td>${book.id}</td>
+                        <td>${book.name}</td>
+                        <c:forEach var="category" items="${categories}">
+                           <c:if test="${book.categoryCode.equals(category.code)}">
+                               <td>${category.name}</td>
+                           </c:if>
+                        </c:forEach>
+                        <td>${book.price}</td>
+                        <td>${book.imputedDate}</td>
+                        <td>
+                            <div class="nav">
+                                <a class="nav-link btn btn-outline-light" href="#"><i class="fas fa-edit"></i></a>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="nav">
+                               <button class="nav-link btn btn-outline-light" onclick="deleteBook(${book.id})">
+                                   <i class="fas fa-trash"></i>
+                               </button>
+                            </div>
+                        </td>
+                    </tr>
                 </c:forEach>
             </tr>
             </tbody>

@@ -1,9 +1,7 @@
 package com.example.converter;
 
 import com.example.dto.BookDto;
-import com.example.dto.RoleDto;
 import com.example.entity.BookEntity;
-import com.example.entity.RoleEntity;
 import com.example.repository.CategoryRepository;
 import com.example.repository.PublisherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +41,8 @@ public class BookConverter {
     public BookEntity toEntity (BookEntity entity, BookDto dto) {
         entity.setName(dto.getName());
         entity.setDescription(dto.getDescription());
-        entity.setCover(dto.getCover());
         entity.setThumbnail(dto.getThumbnail());
+        entity.setCover(dto.getCover());
         entity.setPageNumber(dto.getPageNumber());
         entity.setPrice(entity.getPrice());
         entity.setCategory(categoryRepository.findOneByCode (dto.getCategoryCode()));

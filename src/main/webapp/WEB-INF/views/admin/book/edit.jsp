@@ -22,7 +22,7 @@
 
 <ol class="breadcrumb mb-4">
     <c:if test="${not empty model.id}">
-        <li class="breadcrumb-item active">Trang chủ / Sách / ${model.fullName}</li>
+        <li class="breadcrumb-item active">Trang chủ / Sách / ${model.name}</li>
     </c:if>
     <c:if test="${empty model.id}">
        <li class="breadcrumb-item active">Trang chủ / Sách / Thêm mới</li>
@@ -34,55 +34,65 @@
         <i class="fas fa-user-edit me-1"></i>
         <c:if test="${not empty model.id}">Cập nhật thông tin sản phẩm</c:if>
         <c:if test="${empty model.id}">Thêm mới sản phẩm</c:if>
+
+        <span id="result"></span>
     </div>
     <div class="card-body">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-10">
                     <form:form role="form" id="formSubmit" modelAttribute="model">
+                        <div class="form-group row mb-3">
+                            <label for="categoryCode">Thể Loại</label>
+                            <form:select path="categoryCode" id="categoryCode" cssClass="form-control text-center">
+                                <form:option value="" label="--- Thể loại ---"/>
+                                <form:options items="${categories}" itemLabel="name" itemValue="code"/>
+                            </form:select>
+                        </div>
+                        <div class="form-group row mb-3">
+                            <label for="publisherCode">Nhà Xuất Bản</label>
+                            <form:select path="publisherCode" id="publisherCode" cssClass="form-control text-center">
+                                <form:option value="">--- Nhà xuất bản ---</form:option>
+                                <form:options items="${publishers}" itemValue="code" itemLabel="name"/>
+                            </form:select>
+                        </div>
                         <div class="form-group mb-3">
-                            <label for="inputName">Họ và tên</label>
+                            <label for="inputName">Tên sách</label>
                             <form:input path="name" id="inputName" cssClass="form-control"/>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="inputEmail">Email</label>
-                            <form:input path="email" id="inputEmail" cssClass="form-control"/>
-                        </div>
-                        <c:if test="${empty model.id}">
-                            <div class="form-group mb-3">
-                                <label for="inputUsername">Tên đăng nhập</label>
-                                <input id="inputUsername" class="form-control" name="username"/>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="inputPassword">Mật khẩu</label>
-                                <input type="text" id="inputPassword" class="form-control" name="password"/>
-                            </div>
-                        </c:if>
-                        <div class="form-group mb-3">
-                            <label for="inputTell">Số điện thoại</label>
-                            <form:input path="tell" id="inputTell" cssClass="form-control"/>
+                            <label for="inputThumbnail">Hình đại diện</label>
+                            <input type="file" id="inputThumbnail" onchange="encodeImageByBase64()" class="form-control"/>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="inputAddress">Địa chi</label>
-                            <form:input path="address" id="inputAddress" cssClass="form-control"/>
+                            <label for="inputCover">Hình thức bìa</label>
+                            <form:input path="cover" id="inputCover" cssClass="form-control"/>
                         </div>
-                        <div class="row mb-3">
-                            <label>Vai trò</label>
-                            <div class="d-flex flex-wrap m-3 justify-content-start">
-                                <c:forEach items="${roles}" var="role">
-                                   <input class="p-3 m-2 mt-1" type="checkbox" name="roles" id="checkBox_${role.id}"
-                                          value="${role.code}"
-                                          <c:if test="${model.roleCodes.contains(role.code)}">checked</c:if>
-                                   />
-                                   <label for="checkBox_${role.id}">${role.name}</label>
-                                </c:forEach>
-                            </div>
+                        <div class="form-group mb-3">
+                            <label for="inputPageNumber">Số trang</label>
+                            <form:input path="pageNumber" id="inputPageNumber" cssClass="form-control"/>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="inputPublishedYear">Năm xuất bản</label>
+                            <form:input path="publishedYear" id="inputPublishedYear" cssClass="form-control"/>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="inputPrice">Giá bán</label>
+                            <form:input path="price" id="inputPrice" cssClass="form-control"/>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="inputQuantity">Số lượng nhập</label>
+                            <form:input path="quantity" id="inputQuantity" cssClass="form-control"/>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="description">Mô tả</label>
+                            <form:textarea path="description" id="description" cssClass="form-control" cols="20" rows="5"/>
                         </div>
                         <div class="container">
                             <div class="row justify-content-center">
                                 <div class="col-lg-4">
                                     <c:if test="${empty model.id}">
-                                        <input id="btn-create-update" type="submit" class="btn btn-warning form-control" value="Thêm tài khoản"/>
+                                        <input id="btn-create-update" type="submit" class="btn btn-warning form-control" value="Thêm sản "/>
                                     </c:if>
                                     <c:if test="${not empty model.id}">
                                         <input id="btn-create-update" type="submit" class="btn btn-warning form-control" value="Cập nhật"/>
@@ -91,6 +101,7 @@
                             </div>
                         </div>
                         <input type="hidden" id="modelId" value="${model.id}"/>
+                        <input type="hidden" id="thumbnailString"/>
                     </form:form>
                 </div>
             </div>
@@ -102,24 +113,38 @@
     $('#btn-create-update').click (function (e) {
         e.preventDefault();
         let data = {};
-        let roles;
+        let thumbnail = $('#thumbnailString').val();
         let formDate = $('#formSubmit').serializeArray();
         $.each(formDate, function (i, v) {
             data[""+v.name+""] = v.value;
         })
-        roles = $('#formSubmit input[type=checkbox]:checked').map(function () {
-            return $(this).val();
-        }).get();
         data["id"] = id;
-        data["roleCodes"] = roles;
+        data["thumbnail"] = thumbnail;
         if (id === '') {
-            createAccount(data);
+            addBook(data);
         } else {
-            updateAccount(data);
+            updateBook(data);
         }
     })
 
-    function createAccount (data) {
+    function loadThumbnail () {
+        const file = $('#inputThumbnail');
+        if (!file.prop('files')[0]) {
+            alert("Let choose a image!");
+        } else {
+            return file.prop('files')[0];
+        }
+    }
+    function encodeImageByBase64 () {
+        const image = loadThumbnail();
+        const reader = new FileReader();
+        reader.onload = function (e) {
+           $('#thumbnailString').val(e.target.result.replace('data:', '').replace(/^.+,/, ''));
+        }
+        reader.readAsDataURL(image);
+    }
+
+    function addBook (data) {
         $.ajax({
             url: '${editApi}',
             type: 'POST',
@@ -145,7 +170,7 @@
         })
     }
 
-    function updateAccount(data) {
+    function updateBook(data) {
         $.ajax({
             url: '${editApi}',
             type: 'PUT',

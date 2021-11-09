@@ -34,12 +34,15 @@ public class MessageUtils {
         } else if (key.equals(MessageKey.REGISTERED_SUCCESS)) {
             result.put(MESSAGE, Message.REGISTERED_SUCCESS);
             result.put(TYPE, "success");
-        } else if (key.equals(MessageKey.USERNAME_EXISTED)) {
+        } else if (key.equals(MessageKey.UPDATED_SUCCESS)) {
             result.put(MESSAGE, Message.UPDATED_SUCCESS);
             result.put(TYPE, "success");
         }else if (key.equals("USER_NOT_FOUND")) {
             result.put(MESSAGE, Message.USER_NOT_FOUND);
             result.put(TYPE, "error");
+        } else if (key.equals(MessageKey.ADD_SUCCESS)) {
+            result.put(MESSAGE, Message.ADD_SUCCESS);
+            result.put(TYPE, "success");
         }
         return result;
     }

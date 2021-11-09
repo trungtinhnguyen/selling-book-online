@@ -59,34 +59,42 @@
                         <div class="form-group mb-3">
                             <label for="inputName">Tên sách</label>
                             <form:input path="name" id="inputName" cssClass="form-control"/>
+                            <span class=" alert-danger" id="inputNameStatus"></span>
                         </div>
                         <div class="form-group mb-3">
                             <label for="inputThumbnail">Hình đại diện</label>
                             <input type="file" id="inputThumbnail" onchange="encodeImageByBase64()" class="form-control"/>
+                            <span class=" alert-danger" id="inputThumbnailStatus"></span>
                         </div>
                         <div class="form-group mb-3">
                             <label for="inputCover">Hình thức bìa</label>
                             <form:input path="cover" id="inputCover" cssClass="form-control"/>
+                            <span class=" alert-danger" id="inputCoverStatus"></span>
                         </div>
                         <div class="form-group mb-3">
                             <label for="inputPageNumber">Số trang</label>
                             <form:input path="pageNumber" id="inputPageNumber" cssClass="form-control"/>
+                            <span class="alert-danger" id="inputPageNumberStatus"></span>
                         </div>
                         <div class="form-group mb-3">
                             <label for="inputPublishedYear">Năm xuất bản</label>
                             <form:input path="publishedYear" id="inputPublishedYear" cssClass="form-control"/>
+                            <span class="alert-danger" id="inputPublishedYearStatus"></span>
                         </div>
                         <div class="form-group mb-3">
                             <label for="inputPrice">Giá bán</label>
                             <form:input path="price" id="inputPrice" cssClass="form-control"/>
+                            <span class="alert-danger" id="inputPriceStatus"></span>
                         </div>
                         <div class="form-group mb-3">
                             <label for="inputQuantity">Số lượng nhập</label>
                             <form:input path="quantity" id="inputQuantity" cssClass="form-control"/>
+                            <span class="alert-danger" id="inputQuantityStatus"></span>
                         </div>
                         <div class="form-group mb-3">
                             <label for="description">Mô tả</label>
                             <form:textarea path="description" id="description" cssClass="form-control" cols="20" rows="5"/>
+                            <span class="alert-danger" id="descriptionStatus"></span>
                         </div>
                         <div class="container">
                             <div class="row justify-content-center">
@@ -108,22 +116,25 @@
         </div>
     </div>
 </div>
+<script src="<c:url value="/template/admin/js/book.js"/>"></script>
 <script type="text/javascript">
     let id = $('#modelId').val();
     $('#btn-create-update').click (function (e) {
         e.preventDefault();
-        let data = {};
-        let thumbnail = $('#thumbnailString').val();
-        let formDate = $('#formSubmit').serializeArray();
-        $.each(formDate, function (i, v) {
-            data[""+v.name+""] = v.value;
-        })
-        data["id"] = id;
-        data["thumbnail"] = thumbnail;
-        if (id === '') {
-            addBook(data);
-        } else {
-            updateBook(data);
+        if (validateBookInfo()) {
+            let data = {};
+            let thumbnail = $('#thumbnailString').val();
+            let formDate = $('#formSubmit').serializeArray();
+            $.each(formDate, function (i, v) {
+                data[""+v.name+""] = v.value;
+            })
+            data["id"] = id;
+            data["thumbnail"] = thumbnail;
+            if (id === '') {
+                addBook(data);
+            } else {
+                updateBook(data);
+            }
         }
     })
 

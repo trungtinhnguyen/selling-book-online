@@ -39,6 +39,7 @@
                         <div class="form-group mb-3">
                             <label for="inputFullName">Họ và tên</label>
                             <form:input path="fullName" id="inputFullName" cssClass="form-control"/>
+                            <span class="alert-danger" id="inputFullNameStatus"></span>
                         </div>
                         <div class="form-group mb-3">
                             <label for="inputEmail">Email</label>
@@ -48,19 +49,23 @@
                             <div class="form-group mb-3">
                                 <label for="inputUsername">Tên đăng nhập</label>
                                 <input id="inputUsername" class="form-control" name="username"/>
+                                <span class="alert-danger" id="inputUsernameStatus"></span>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="inputPassword">Mật khẩu</label>
                                 <input type="text" id="inputPassword" class="form-control" name="password"/>
+                                <span class="alert-danger" id="inputPasswordStatus"></span>
                             </div>
                         </c:if>
                         <div class="form-group mb-3">
                             <label for="inputTell">Số điện thoại</label>
                             <form:input path="tell" id="inputTell" cssClass="form-control"/>
+                            <span class="alert-danger" id="inputTellStatus"></span>
                         </div>
                         <div class="form-group mb-3">
                             <label for="inputAddress">Địa chi</label>
                             <form:input path="address" id="inputAddress" cssClass="form-control"/>
+                            <span class="alert-danger" id="inputAddressStatus"></span>
                         </div>
                         <div class="row mb-3">
                             <label>Vai trò</label>
@@ -68,7 +73,7 @@
                                 <c:forEach items="${roles}" var="role">
                                    <input class="p-3 m-2 mt-1" type="checkbox" name="roles" id="checkBox_${role.id}"
                                           value="${role.code}"
-                                          <c:if test="${model.roleCodes.contains(role.code)}">checked</c:if>
+                                          <c:if test="${model.roles.contains(role.code)}">checked</c:if>
                                    />
                                    <label for="checkBox_${role.id}">${role.name}</label>
                                 </c:forEach>
@@ -93,25 +98,29 @@
         </div>
     </div>
 </div>
+<script src="<c:url value="/template/auth/js/script.js"/>"></script>
 <script type="text/javascript">
     let id = $('#modelId').val();
     $('#btn-create-update').click (function (e) {
         e.preventDefault();
-        let data = {};
-        let roles;
-        let formDate = $('#formSubmit').serializeArray();
-        $.each(formDate, function (i, v) {
-            data[""+v.name+""] = v.value;
-        })
-        roles = $('#formSubmit input[type=checkbox]:checked').map(function () {
-            return $(this).val();
-        }).get();
-        data["id"] = id;
-        data["roleCodes"] = roles;
-        if (id === '') {
-            createAccount(data);
-        } else {
-            updateAccount(data);
+        let completed = validateRegisterForm();
+        if (completed) {
+            let data = {};
+            let roles;
+            let formDate = $('#formSubmit').serializeArray();
+            $.each(formDate, function (i, v) {
+                data[""+v.name+""] = v.value;
+            })
+            roles = $('#formSubmit input[type=checkbox]:checked').map(function () {
+                return $(this).val();
+            }).get();
+            data["id"] = id;
+            data["roleCodes"] = roles;
+            if (id === '') {
+                createAccount(data);
+            } else {
+                updateAccount(data);
+            }
         }
     })
 
@@ -188,6 +197,10 @@
                 window.location.href = url;
             }
         })
+    }
+
+    $('#inputFullName').onload = function (){
+
     }
 </script>
 

@@ -7,6 +7,7 @@ import java.io.OutputStream;
 
 public class FileUtils {
 
+    private final String HOST = "localhost:8080";
     private static FileUtils fileUtils;
 
     public static FileUtils getInstance () {
@@ -17,7 +18,7 @@ public class FileUtils {
     }
 
     public String getUploadFolder  () {
-        File uploadFolder = new File("/home/tinhnguyen/2021/NienLuan/selling-book/uploads");
+        File uploadFolder = new File(HOST + "/uploads");
         if (!uploadFolder.exists() || !uploadFolder.isDirectory()) {
             if (!uploadFolder.mkdir()) {
                 throw new IllegalArgumentException("Cannot create folder: " + uploadFolder.getName());

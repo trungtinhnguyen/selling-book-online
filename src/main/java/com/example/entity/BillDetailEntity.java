@@ -6,7 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table (name = "orderdetail")
+@Table (name = "billdetail")
 @Getter
 @Setter
 public class BillDetailEntity extends BaseEntity{
@@ -24,4 +24,8 @@ public class BillDetailEntity extends BaseEntity{
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn (name = "bookid")
     private BookEntity bookIsBought;
+
+    @ManyToOne (fetch = FetchType.LAZY)
+    @JoinColumn (name = "cartid")
+    private CartEntity cart;
 }

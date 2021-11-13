@@ -11,4 +11,5 @@ public class Message {
     public static final String UPDATED_SUCCESS = "Cập nhật thành công";
     public static final String ADD_SUCCESS = "Thêm thành công";
     public static final String USER_NOT_FOUND = "User not found";
+    public static final String ADD_ITEM_SUCCESS = "Đã thêm vào giỏ hàng thành công";
 }

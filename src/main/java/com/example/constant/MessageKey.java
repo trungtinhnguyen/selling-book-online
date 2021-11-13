@@ -9,4 +9,5 @@ public class MessageKey {
     public static String REGISTERED_SUCCESS = "REGISTERED_SUCCESS";
     public static String ACCESS_DENIED = "ACCESS_DENIED";
     public static String INCORRECT_LOGIN = "INCORRECT_LOGIN";
+    public static String ADD_ITEM_SUCCESS = "ADD_ITEM_SUCCESS";
 }

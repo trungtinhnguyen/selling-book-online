@@ -40,4 +40,7 @@ public class UserEntity extends BaseEntity{
 
     @OneToMany (mappedBy = "commentBy", fetch = FetchType.LAZY)
     private List<CommentEntity> comments;
+
+    @OneToOne (mappedBy = "owner", fetch = FetchType.LAZY)
+    private CartEntity cart;
 }

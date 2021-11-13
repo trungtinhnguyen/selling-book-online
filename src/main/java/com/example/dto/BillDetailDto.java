@@ -7,7 +7,11 @@ import lombok.Setter;
 @Setter
 public class BillDetailDto extends BaseDto{
     private Long billId;
-    private Long bookId;
+    private BookDto book;
+    private Long cartId;
     private int quantity;
-    private double price;
+
+    public Double getPrices () {
+        return book.getPrice() * quantity;
+    }
 }

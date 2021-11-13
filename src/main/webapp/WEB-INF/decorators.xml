@@ -3,7 +3,9 @@
     <excluded>
         <pattern>/api*</pattern>
     </excluded>
-
+    <decorator name = "error" page="error.jsp">
+        <pattern>/error*</pattern>
+    </decorator>
     <decorator name="admin" page="admin.jsp">
         <pattern>/quan-tri*</pattern>
     </decorator>

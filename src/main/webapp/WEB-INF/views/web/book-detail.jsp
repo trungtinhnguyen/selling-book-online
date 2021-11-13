@@ -98,7 +98,7 @@
         function addCart(bookid) {
             $.ajax({
                 url: '${buyUrl}',
-                type: 'PUT',
+                type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(bookid),
                 dataType: 'json',

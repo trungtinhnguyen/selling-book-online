@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface PublisherService {
     List<PublisherDto> findAll ();
+    PublisherDto findByCode (String code);
 }

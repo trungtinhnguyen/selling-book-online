@@ -1,22 +1,41 @@
 package com.example.controller.web;
 
-import com.example.util.FileUtils;
+import com.example.constant.SystemConstant;
+import com.example.dto.BookDto;
+import com.example.dto.CategoryDto;
+import com.example.dto.PublisherDto;
+import com.example.service.BookService;
+import com.example.service.CategoryService;
+import com.example.service.PublisherService;
 import com.example.util.MessageUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller ("webHomeController")
 public class HomeController {
+
+    private final BookService bookService;
+    private final CategoryService categoryService;
+    private final PublisherService publisherService;
+
+    public HomeController(BookService bookService, CategoryService categoryService, PublisherService publisherService) {
+        this.bookService = bookService;
+        this.categoryService = categoryService;
+        this.publisherService = publisherService;
+    }
 
     @RequestMapping (value = "/trang-chu", method = RequestMethod.GET)
     public ModelAndView homePage (HttpSession session) {
@@ -31,7 +50,6 @@ public class HomeController {
             mav.addObject("message", message.get(MessageUtils.MESSAGE));
             mav.addObject("alert", message.get(MessageUtils.TYPE));
         }
-
         return mav;
     }
 
@@ -44,14 +62,37 @@ public class HomeController {
 
         return new ModelAndView("redirect:/trang-chu");
     }
-
     @RequestMapping (value = "/access-denied", method = RequestMethod.GET)
     public ModelAndView accessDenied () {
         return new ModelAndView("redirect:/dang-nhap?message=access_denied");
     }
 
+    @GetMapping(value = "/error/404")
+    public ModelAndView pageNotFound () {
+        return new ModelAndView("error/404");
+    }
+
     @RequestMapping (value = "/dang-ky", method = RequestMethod.GET)
     public ModelAndView registerPage() {
         return new ModelAndView("auth/register");
+    }
+
+    @GetMapping (value = "/sach")
+    public ModelAndView bookDetailsPage (@RequestParam (name = "id") long id) {
+        ModelAndView view = new ModelAndView("web/book-detail");
+        BookDto model = bookService.findOne(id);
+        Map<String, String> map = new HashMap<>();
+        if (model.getId() == null) {
+            // return not found page
+            view.setViewName("redirect:/error/404");
+        } else {
+            CategoryDto category = categoryService.findByCode(model.getCategoryCode());
+            PublisherDto publisher = publisherService.findByCode(model.getPublisherCode());
+            map.put(category.getCode(), category.getName());
+            map.put(publisher.getCode(), publisher.getName());
+            view.addObject("map", map);
+            view.addObject(SystemConstant.MODEL, model);
+        }
+        return view;
     }
 }

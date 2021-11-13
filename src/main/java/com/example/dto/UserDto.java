@@ -16,6 +16,7 @@ public class UserDto extends BaseDto{
     private String tell;
     private int status;
     private List<String> roles;
+    private Long cartId;
 
     public List<String> getRoles () {
         if (roles != null) {

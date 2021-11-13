@@ -43,6 +43,9 @@ public class MessageUtils {
         } else if (key.equals(MessageKey.ADD_SUCCESS)) {
             result.put(MESSAGE, Message.ADD_SUCCESS);
             result.put(TYPE, "success");
+        } else if (key.equals(MessageKey.ADD_ITEM_SUCCESS)) {
+            result.put(MESSAGE, Message.ADD_ITEM_SUCCESS);
+            result.put(TYPE, "success");
         }
         return result;
     }

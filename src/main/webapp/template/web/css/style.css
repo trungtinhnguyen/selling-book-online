@@ -1,0 +1,54 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Playfair Display', serif;
+}
+
+table td {
+    font-size: 15px;
+    text-align: left;
+    vertical-align: bottom;
+}
+table th {
+    text-align: left;
+}
+
+.item-img {
+    max-height: 450px;
+}
+
+.img-cart {
+    width: 100px;
+    height: auto
+}
+.check-box-container {
+    display: block;
+    position: relative;
+    width: 150px;
+    height: 20px;
+    margin-bottom: 10px;
+}
+.check-box-container input {
+    display: inline;
+    width: 20px;
+    height: 100%;
+    background-color: #6e7d88;
+}
+.check-box-container label {
+    margin: 10px;
+}
+a {
+    cursor: pointer;
+}
+#totalPrices {
+    position: absolute;
+    right: 90px;
+    top: 65px;
+    text-align: right;
+    font-size: 22px;
+    color: #dc2424;
+}
+#unitPrice {
+    position: absolute;
+    right: 30px;
+}

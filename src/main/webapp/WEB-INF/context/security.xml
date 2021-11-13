@@ -8,8 +8,11 @@
                            http://www.springframework.org/schema/security/spring-security-3.2.xsd">
     <http auto-config="false" use-expressions="true" disable-url-rewriting="true">
         <intercept-url pattern="/quan-tri/**" access="hasAnyRole('ADMIN')"/>
+        <intercept-url pattern="/api/*" access="hasAnyRole('ADMIN', 'CUSTOMER')"/>
+        <intercept-url pattern="/gio-hang" access="hasAnyRole('ADMIN', 'CUSTOMER')"/>
 
         <access-denied-handler error-page="/access-denied"/>
+
         <form-login login-page="/dang-nhap"
                     username-parameter="j_username"
                     password-parameter="j_password"

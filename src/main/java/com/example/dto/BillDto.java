@@ -17,6 +17,6 @@ public class BillDto extends BaseDto{
         if (details == null || details.isEmpty()) {
             return 0;
         }
-        return details.stream().mapToDouble(BillDetailDto::getPrice).sum();
+        return details.stream().mapToDouble(BillDetailDto::getPrices).sum();
     }
 }

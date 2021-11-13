@@ -2,6 +2,8 @@ package com.example.constant;
 
 public class SystemConstant {
 
+    public static final String HOST = "localhost:8080";
+
     public static final String ADMIN = "ADMIN";
     public static final String CUSTOMER = "CUSTOMER";
     public static final int ACTIVE = 1;

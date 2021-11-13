@@ -1,6 +1,7 @@
 package com.example.converter;
 
 import com.example.dto.UserDto;
+import com.example.entity.CartEntity;
 import com.example.entity.RoleEntity;
 import com.example.entity.UserEntity;
 import com.example.repository.RoleRepository;
@@ -27,10 +28,9 @@ public class UserConverter {
         dto.setStatus(entity.getStatus());
         dto.setTell(entity.getTell());
         List<String> roles = new ArrayList<>();
-        entity.getRoles().forEach(e -> {
-            roles.add(e.getCode());
-        });
+        entity.getRoles().forEach(e -> roles.add(e.getCode()));
         dto.setRoles(roles);
+        dto.setCartId(entity.getCart().getId());
         return dto;
     }
     public UserEntity toEntity (UserEntity entity, UserDto dto) {
@@ -49,6 +49,11 @@ public class UserConverter {
         return entity;
     }
     public UserEntity toEntity (UserDto dto) {
-        return toEntity(new UserEntity(), dto);
+        UserEntity entity = new UserEntity();
+        CartEntity cart = new CartEntity();
+        entity = toEntity(entity, dto);
+        cart.setOwner(entity);
+        entity.setCart(cart);
+        return entity;
     }
 }

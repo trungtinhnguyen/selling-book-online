@@ -2,6 +2,7 @@ package com.example.service.impl;
 
 import com.example.converter.PublisherConverter;
 import com.example.dto.PublisherDto;
+import com.example.entity.PublisherEntity;
 import com.example.repository.PublisherRepository;
 import com.example.service.PublisherService;
 import org.springframework.stereotype.Service;
@@ -29,5 +30,11 @@ public class PublisherServiceImpl implements PublisherService {
            dtos.add(publisherConverter.toDto(entity));
        });
        return dtos;
+    }
+
+    @Override
+    public PublisherDto findByCode(String code) {
+        PublisherEntity entity = publisherRepository.findOneByCode(code);
+        return publisherConverter.toDto(entity);
     }
 }

@@ -150,7 +150,8 @@
         const image = loadThumbnail();
         const reader = new FileReader();
         reader.onload = function (e) {
-           $('#thumbnailString').val(e.target.result.replace('data:', '').replace(/^.+,/, ''));
+            $('#thumbnailString').val(e.target.result);
+            // $('#thumbnailString').val(e.target.result.replace('data:', '').replace(/^.+,/, ''));
         }
         reader.readAsDataURL(image);
     }
@@ -230,6 +231,5 @@
         })
     }
 </script>
-
 </body>
 </html>

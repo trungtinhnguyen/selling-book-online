@@ -1,6 +1,7 @@
 package com.example.util;
 
 import com.example.dto.MyUser;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -10,6 +11,7 @@ import java.util.List;
 public class SecurityUtils {
 
     public static MyUser getPrincipal () {
+
         final MyUser principal = (MyUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal == null) {
             return null;

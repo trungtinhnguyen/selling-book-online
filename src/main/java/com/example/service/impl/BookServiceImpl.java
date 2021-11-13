@@ -48,22 +48,22 @@ public class BookServiceImpl implements BookService {
     public BookDto save(BookDto dto) {
         BookEntity entity;
         BookDto result;
-        FileUtils fileUtils = FileUtils.getInstance();
-        StringBuilder thumbnailPath = new StringBuilder(fileUtils.getUploadFolder());
+//        FileUtils fileUtils = FileUtils.getInstance();
+//        StringBuilder thumbnailPath = new StringBuilder(fileUtils.getUploadFolder());
         Map<String, String> message;
         if (dto.getId() == null) {
-            thumbnailPath.append("/book-").append(bookRepository.count()+1).append(".jpg");
+//            thumbnailPath.append("/book-").append(bookRepository.count()+1).append(".jpg");
             dto.setImputedDate(new Date(System.currentTimeMillis()));
             message = messageUtils.loadMessage(MessageKey.ADD_SUCCESS);
         } else {
             BookEntity old = bookRepository.findOne(dto.getId());
-            thumbnailPath.replace(0, thumbnailPath.length(), old.getThumbnail());
+//            thumbnailPath.replace(0, thumbnailPath.length(), old.getThumbnail());
             dto.setId(old.getId());
             dto.setImputedDate(new Date(old.getImputedDate()));
             message = messageUtils.loadMessage(MessageKey.UPDATED_SUCCESS);
         }
-        fileUtils.saveFile(thumbnailPath.toString(), Base64.getDecoder().decode(dto.getThumbnail().getBytes()));
-        dto.setThumbnail(thumbnailPath.toString());
+//        fileUtils.saveFile(thumbnailPath.toString(), Base64.getDecoder().decode(dto.getThumbnail().getBytes()));
+//        dto.setThumbnail(thumbnailPath.toString());
         entity = bookConverter.toEntity(dto);
         result = bookConverter.toDto(bookRepository.save(entity));
         result.setMessage(message.get(MessageUtils.MESSAGE));

@@ -30,4 +30,10 @@ public class CategoryServiceImpl implements CategoryService {
        });
        return dtos;
     }
+
+    @Override
+    public CategoryDto findByCode(String code) {
+        CategoryEntity entity = categoryRepository.findOneByCode(code);
+        return categoryConverter.toDto(entity);
+    }
 }

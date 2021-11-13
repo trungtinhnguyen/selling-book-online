@@ -8,5 +8,6 @@ public interface UserService {
     List<UserDto> findAll();
     UserDto findOne (Long id);
     UserDto save(UserDto dto);
+    UserDto findByUserName (String username);
     void disable(long id);
 }

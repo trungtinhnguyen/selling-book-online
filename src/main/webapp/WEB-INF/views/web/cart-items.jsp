@@ -65,11 +65,11 @@
             <div class="col-lg-8 align-items-center">
             </div>
             <div class="col-lg-4 card">
-               <div class="card-header">
-                  <h3>Đặt hàng</h3>
-               </div>
+                <div class="card-header">
+                    <h3>Đặt hàng</h3>
+                </div>
                 <div class="card-body">
-                   Tổng tiền: <span id="totalPrices">0</span>
+                    Tổng tiền: <span id="totalPrices">0</span>
                     <span id="unitPrice">VNĐ</span>
                 </div>
                 <div class="card-footer">
@@ -146,7 +146,20 @@
             }
             totalPrices.text(current + total);
         })
-
+        $('#btn-order').click(function (event) {
+            let items = '';
+            event.preventDefault();
+            for (i = 0; i < check_boxes.length; i++) {
+                if (check_boxes[i].checked) {
+                    let id = check_boxes[i].id;
+                    items += id.slice(id.indexOf('_')+1, id.length);
+                    if (i < check_boxes.length - 1) {
+                        items += ',';
+                    }
+                }
+            }
+            window.location = '/dat-hang?items-id='+items;
+        });
     </script>
 </body>
 </html>

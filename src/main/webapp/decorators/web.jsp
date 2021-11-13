@@ -31,13 +31,13 @@
     <link href="<c:url value='/template/web/bootstrap/css/styles.css'/>" rel="stylesheet" />
 </head>
 <body>
-<!-- Responsive navbar-->
-<%@ include file="/common/web/header.jsp"%>
-<!-- Page Content-->
-  <dec:body/>
-<!-- Footer-->
-<%@ include file="/common/web/footer.jsp"
-%>
+    <!-- Responsive navbar-->
+    <%@ include file="/common/web/header.jsp"%>
+    <!-- Page Content-->
+    <dec:body/>
+    <!-- Footer-->
+    <%@ include file="/common/web/footer.jsp"
+    %>
 <!-- Bootstrap core JS-->
 <script src="<c:url value='/template/web/bootstrap/js/bootstrap.bundle.min.js'/>"></script>
 <!-- Core theme JS-->

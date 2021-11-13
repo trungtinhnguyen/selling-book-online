@@ -11,7 +11,9 @@ import com.example.util.MessageUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -27,6 +29,15 @@ public class BillDetailServiceImpl implements BillDetailService {
         this.billDetailConverter = billDetailConverter;
         this.bookRepository = bookRepository;
         this.messageUtils = messageUtils;
+    }
+
+    @Override
+    public List<BillDetailDto> findById(long[] ids) {
+        List<BillDetailDto> items = new ArrayList<>();
+        for (Long id : ids) {
+            items.add(findOne(id));
+        }
+        return items;
     }
 
     @Override

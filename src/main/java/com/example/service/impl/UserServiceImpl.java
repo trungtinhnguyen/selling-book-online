@@ -102,6 +102,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDto findByUserName(String username) {
+        return userConverter.toDto(userRepository.findOneByUsernameAndStatus(username, SystemConstant.ACTIVE));
+    }
+
+    @Override
     @Transactional
     public void disable(long id) {
         UserEntity entity = userRepository.findOne(id);

@@ -57,21 +57,27 @@ public class BillDetailServiceImpl implements BillDetailService {
         Map<String, String> message = new HashMap<>();
         if (dto.getId() == null) {
             List<BillDetailEntity> allItems = billDetailRepository.findByCart(cartRepository.findOne(dto.getCartId()));
-            while (i < allItems.size() && !allItems.get(i).getBookIsBought().getId().equals(dto.getBook().getId())) {
+            while (i < allItems.size()
+                    && !allItems.get(i).getBookIsBought().getId().equals(dto.getBook().getId())) {
                 i++;
             }
-            if (i == allItems.size()) {
-                entity = billDetailConverter.toEntity(dto);
-            } else {
+            if (i < allItems.size() && allItems.get(i).getBill() == null) {
                 entity = billDetailConverter.toEntity(allItems.get(i), dto);
+            } else {
+                entity = billDetailConverter.toEntity(dto);
             }
             message =  messageUtils.loadMessage(MessageKey.ADD_ITEM_SUCCESS);
         } else {
             BillDetailEntity old = billDetailRepository.findOne(dto.getId());
             entity = billDetailConverter.toEntity(old, dto);
         }
-        result = billDetailConverter.toDto(billDetailRepository.save(entity));
-        result.setResult(message, result.getId() != null);
+        if (entity.getQuantity() == 0) {
+            delete(entity.getId());
+            result = new BillDetailDto();
+        } else {
+            result = billDetailConverter.toDto(billDetailRepository.save(entity));
+            result.setResult(message, result.getId() != null);
+        }
         result.setSuccess(true);
         return result;
     }
@@ -82,5 +88,11 @@ public class BillDetailServiceImpl implements BillDetailService {
         List<BillDetailEntity> entities = billDetailRepository.findByBill(billRepository.findOne(billId));
         dtos = billDetailConverter.toDtos(entities);
         return dtos;
+    }
+
+    @Override
+    @Transactional
+    public void delete(long id) {
+        billDetailRepository.delete(id);
     }
 }

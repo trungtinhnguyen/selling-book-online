@@ -54,7 +54,6 @@ public class BillDetailConverter {
     public BillDetailEntity toEntity (BillDetailDto dto) {
         BillDetailEntity entity = new BillDetailEntity();
         entity.setBookIsBought(bookRepository.findOne(dto.getBook().getId()));
-        entity.setQuantity(dto.getQuantity());
         return toEntity(entity, dto);
     }
 

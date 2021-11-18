@@ -104,15 +104,18 @@
                 data: JSON.stringify(id),
                 dataType: 'json',
                 success: function (result) {
-                    const checkbox = $('#checkbox_'+id)[0];
-                    const price = $('#price_'+id);
-                    if (checkbox.checked) {
-                        let change = parseFloat(result.prices) - parseFloat(price.text());
-                        totalPrices.text(parseFloat(totalPrices.text()) + change);
+                    if(result.id === null) {
+                        location.reload();
+                    } else {
+                        const checkbox = $('#checkbox_'+id)[0];
+                        const price = $('#price_'+id);
+                        if (checkbox.checked) {
+                            let change = parseFloat(result.prices) - parseFloat(price.text());
+                            totalPrices.text(parseFloat(totalPrices.text()) + change);
+                        }
+                        $('#quantity_'+id).text(result.quantity);
+                        price.text(result.prices);
                     }
-                    $('#quantity_'+id).text(result.quantity);
-                    price.text(result.prices);
-
                 },
                 error: (error) => console.log(error)
             })

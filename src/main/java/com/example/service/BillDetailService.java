@@ -9,4 +9,5 @@ public interface BillDetailService {
     BillDetailDto findOne (Long id);
     BillDetailDto save(BillDetailDto dto);
     List<BillDetailDto> findByBillId(long billId);
+    void delete (long id);
 }

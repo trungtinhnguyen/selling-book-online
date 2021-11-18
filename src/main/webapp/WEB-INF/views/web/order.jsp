@@ -111,7 +111,9 @@
       data: JSON.stringify(data),
       dataType: 'json',
       success: (result) => {
-        console.log(result);
+        if (result.success === true) {
+          location = '/thong-tin-don-hang?id='+result.id;
+        }
       },
       error: (error) => {
         console.log(error);

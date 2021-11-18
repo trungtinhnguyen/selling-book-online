@@ -12,6 +12,10 @@ public class BillDetailDto extends BaseDto{
     private int quantity;
 
     public Double getPrices () {
-        return book.getPrice() * quantity;
+        if (this.getId() == null) {
+            return null;
+        } else {
+            return book.getPrice() * quantity;
+        }
     }
 }

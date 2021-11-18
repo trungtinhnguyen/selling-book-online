@@ -44,7 +44,6 @@ public class BookConverter {
         entity.setThumbnail(dto.getThumbnail());
         entity.setCover(dto.getCover());
         entity.setPageNumber(dto.getPageNumber());
-        entity.setPrice(entity.getPrice());
         entity.setCategory(categoryRepository.findOneByCode (dto.getCategoryCode()));
         entity.setPublisher(publisherRepository.findOneByCode (dto.getPublisherCode()));
         entity.setPublishedYear(dto.getPublishedYear());
@@ -52,6 +51,8 @@ public class BookConverter {
         return entity;
     }
     public BookEntity toEntity (BookDto dto) {
-        return toEntity(new BookEntity(), dto);
+        BookEntity entity = new BookEntity();
+        entity.setPrice(dto.getPrice());
+        return toEntity(entity, dto);
     }
 }

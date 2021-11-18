@@ -41,16 +41,21 @@ public class BillDetailConverter {
         return dto;
     }
     public BillDetailEntity toEntity (BillDetailEntity entity, BillDetailDto dto) {
-        BookEntity book = bookRepository.findOne(dto.getBook().getId());
-        entity.setBill(dto.getBillId() == null ? null : billRepository.findOne(dto.getBillId()));
-        entity.setBookIsBought(book);
+        if (dto.getBillId() == null) {
+            entity.setQuantity(dto.getQuantity()+entity.getQuantity());
+            entity.setBill(null);
+        } else {
+            entity.setBill(billRepository.findOne(dto.getBillId()));
+        }
+
         entity.setCart(dto.getCartId() == null ? null : cartRepository.findOne(dto.getCartId()));
-        entity.setQuantity(dto.getQuantity());
-        entity.setPrice(book.getPrice());
         return entity;
     }
     public BillDetailEntity toEntity (BillDetailDto dto) {
-        return toEntity(new BillDetailEntity(), dto);
+        BillDetailEntity entity = new BillDetailEntity();
+        entity.setBookIsBought(bookRepository.findOne(dto.getBook().getId()));
+        entity.setQuantity(dto.getQuantity());
+        return toEntity(entity, dto);
     }
 
     public List<BillDetailDto> toDtos (List<BillDetailEntity> entities) {

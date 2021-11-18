@@ -2,8 +2,10 @@ package com.example.controller.web;
 
 import com.example.constant.SystemConstant;
 import com.example.dto.BillDetailDto;
+import com.example.dto.BillDto;
 import com.example.dto.UserDto;
 import com.example.service.BillDetailService;
+import com.example.service.BillService;
 import com.example.service.CartService;
 import com.example.service.UserService;
 import com.example.util.SecurityUtils;
@@ -20,11 +22,13 @@ public class PaymentController {
     private final CartService cartService;
     private final BillDetailService billDetailService;
     private final UserService userService;
+    private final BillService billService;
 
-    public PaymentController(CartService cartService, BillDetailService billDetailService, UserService userService) {
+    public PaymentController(CartService cartService, BillDetailService billDetailService, UserService userService, BillService billService) {
         this.cartService = cartService;
         this.billDetailService = billDetailService;
         this.userService = userService;
+        this.billService = billService;
     }
 
     @GetMapping (value = "/gio-hang")
@@ -44,6 +48,24 @@ public class PaymentController {
         List<BillDetailDto> model = billDetailService.findById(items);
         view.addObject("user", user);
         view.addObject(SystemConstant.MODEL, model);
+        return view;
+    }
+
+    @GetMapping (value = "/thong-tin-don-hang")
+    public ModelAndView orderInfo (@RequestParam (name = "id") long id) {
+        ModelAndView view = new ModelAndView();
+        String username = SecurityUtils.getPrincipal().getUsername();
+        BillDto bill = billService.findOne(id);
+        List<BillDetailDto> items;
+        if (bill.getId() != null && username != null) {
+            view.setViewName("web/order-info");
+            items = billDetailService.findByBillId(bill.getId());
+            UserDto user = userService.findByUserName(username);
+            view.addObject("user", user);
+            view.addObject(SystemConstant.MODEL, items);
+        } else {
+            view.setViewName("redirect:/error/404");
+        }
         return view;
     }
 }

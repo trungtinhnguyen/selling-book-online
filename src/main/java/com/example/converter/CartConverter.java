@@ -44,6 +44,7 @@ public class CartConverter {
         return entity;
     }
     public CartEntity toEntity (CartDto dto) {
-        return toEntity(new CartEntity(), dto);
+        CartEntity cart = new CartEntity();
+        return toEntity(cart, dto);
     }
 }

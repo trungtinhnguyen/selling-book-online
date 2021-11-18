@@ -11,6 +11,8 @@ import java.util.Map;
 public class BaseDto {
     private Long id;
 
+    private long[] itemIds;
+
     private boolean success;
     private String message;
     private String type;

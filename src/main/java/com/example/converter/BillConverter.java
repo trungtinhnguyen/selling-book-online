@@ -1,5 +1,6 @@
 package com.example.converter;
 
+import com.example.constant.SystemConstant;
 import com.example.dto.BillDto;
 import com.example.entity.BillDetailEntity;
 import com.example.entity.BillEntity;
@@ -27,23 +28,23 @@ public class BillConverter {
     public BillDto toDto (BillEntity entity) {
         BillDto dto = new BillDto();
         dto.setId(entity.getId());
-        dto.setUserId(entity.getUser().getId());
+        dto.setStatus(entity.getStatus());
+        dto.setUsername(entity.getUser().getUsername());
         dto.setModifiedDate(new Date(entity.getModifiedDate()));
         dto.setDetails(billDetailConverter.toDtos(entity.getDetails()));
         return dto;
     }
     public BillEntity toEntity (BillEntity entity, BillDto dto) {
-        entity.setUser(userRepository.findOne(dto.getUserId()));
-        List<BillDetailEntity> details = new ArrayList<>();
-        dto.getDetails().forEach(detail -> {
-           details.add(billDetailRepository.findOne(detail.getId()));
-        });
-        entity.setDetails(details);
         entity.setStatus(dto.getStatus());
-        entity.setModifiedDate(dto.getModifiedDate().getTime());
         return entity;
     }
     public BillEntity toEntity (BillDto dto) {
-        return toEntity(new BillEntity(), dto);
+        BillEntity entity = new BillEntity();
+        List<BillDetailEntity> details = new ArrayList<>();
+        dto.getDetails().forEach(detail -> details.add(billDetailRepository.findOne(detail.getId())));
+        entity.setDetails(details);
+        entity.setUser(userRepository.findOneByUsernameAndStatus(dto.getUsername(), SystemConstant.ACTIVE));
+        entity.setModifiedDate(dto.getModifiedDate().getTime());
+        return toEntity(entity, dto);
     }
 }

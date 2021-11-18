@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 public class BillDto extends BaseDto{
-    private Long userId;
+    private String username;
     private int status;
     private Date modifiedDate;
     private List<BillDetailDto> details;

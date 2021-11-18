@@ -11,13 +11,13 @@
 <html>
 <head>
     <meta charset="UTF-8"/>
-    <title>Xác Nhận Đặt Hàng</title>
+    <title>Thông tin đơn hàng</title>
 </head>
 <body>
 <div class="container px-4 px-lg-5">
   <div class="row gx-4 gx-lg-5 align-items-center my-5">
     <div class="col-lg-5">
-      <h1><span><i class="fas fa-cart-arrow-down"></i> </span> Đơn hàng</h1>
+      <h1><span><i class="fas fa-cart-arrow-down"></i> </span> Thông tin đơn hàng</h1>
     </div>
   </div>
   <div class="row gx-4 gx-lg-5">
@@ -50,7 +50,7 @@
     </table>
   </div>
   <div class="row gx-4 gx-lg-5 mb-5 mt-3">
-    <h3><span><i class="far fa-address-card"></i> </span>Xác nhận thông tin giao hàng</h3>
+    <h3><span><i class="far fa-address-card"></i> </span>Thông tin khách hàng</h3>
     <table>
       <tr>
         <th>Họ tên:</th>
@@ -75,14 +75,11 @@
     </div>
     <div class="col-lg-4 card">
       <div class="card-header">
-        <h3>Đặt hàng</h3>
+        <h3>Giá trị đơn hàng</h3>
       </div>
       <div class="card-body">
         Tổng tiền: <span id="totalPrices">0</span>
         <span id="unitPrice">VNĐ</span>
-      </div>
-      <div class="card-footer">
-        <button class="btn btn-danger" id="btn-order">Đặt hàng</button>
       </div>
     </div>
   </div>

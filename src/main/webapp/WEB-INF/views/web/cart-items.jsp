@@ -21,62 +21,70 @@
             </div>
         </div>
         <div class="row gx-4 gx-lg-5">
-            <table class="table">
-                <thead>
-                <th colspan="2">
-                    <div class="check-box-container">
-                        <input id="check-all" type="checkbox" class="check-box"/>
-                        <label for="check-all"><span>Chọn tất cả</span></label>
-                    </div>
-                </th>
-                <th>Tên sách</th>
-                <th>Số lượng</th>
-                <th>Giá</th>
-                </thead>
-                <tbody>
-                <c:forEach items="${model}" var="item">
-                    <tr>
-                        <td>
-                            <div class="check-box-container">
-                                <input class="check-box" type="checkbox" id="checkbox_${item.id}"/>
-                                <span class="check-mark"></span>
-                            </div>
-                        </td>
-                        <td>
-                            <img class="img-cart" src="${item.book.thumbnail}"/>
-                        </td>
-                        <td>${item.book.name}</td>
-                        <td>
-                            <div class="nav navbar-brand">
-                                <a class="nav-link text-black" onclick="toDown(${item.id})"><i class="far fa-minus-square"></i></a>
-                                <span id="quantity_${item.id}" class="nav-item">${item.quantity}</span>
-                                <a class="nav-link text-black" onclick="toUp(${item.id})"><i class="far fa-plus-square"></i></a>
-                            </div>
-                        </td>
-                        <td>
-                            <span id="price_${item.id}">${item.prices}</span>
-                        </td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
+            <c:if test="${model.size() == 0}">
+                <span>Chưa có sản phầm nào trong giỏ hàng</span>
+                <a href="/trang-chu"><span>Tiếp tục mua hàng</span></a>
+            </c:if>
+            <c:if test="${model.size() > 0}">
+                <table class="table">
+                    <thead>
+                    <th colspan="2">
+                        <div class="check-box-container">
+                            <input id="check-all" type="checkbox" class="check-box"/>
+                            <label for="check-all"><span>Chọn tất cả</span></label>
+                        </div>
+                    </th>
+                    <th>Tên sách</th>
+                    <th>Số lượng</th>
+                    <th>Giá</th>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${model}" var="item">
+                        <tr>
+                            <td>
+                                <div class="check-box-container">
+                                    <input class="check-box" type="checkbox" id="checkbox_${item.id}"/>
+                                    <span class="check-mark"></span>
+                                </div>
+                            </td>
+                            <td>
+                                <img class="img-cart" src="${item.book.thumbnail}"/>
+                            </td>
+                            <td>${item.book.name}</td>
+                            <td>
+                                <div class="nav navbar-brand">
+                                    <a class="nav-link text-black" onclick="toDown(${item.id})"><i class="far fa-minus-square"></i></a>
+                                    <span id="quantity_${item.id}" class="nav-item">${item.quantity}</span>
+                                    <a class="nav-link text-black" onclick="toUp(${item.id})"><i class="far fa-plus-square"></i></a>
+                                </div>
+                            </td>
+                            <td>
+                                <span id="price_${item.id}">${item.prices}</span>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </c:if>
         </div>
-        <div class="row gx-4 gx-lg-5">
-            <div class="col-lg-8 align-items-center">
-            </div>
-            <div class="col-lg-4 card">
-                <div class="card-header">
-                    <h3>Đặt hàng</h3>
-                </div>
-                <div class="card-body">
-                    Tổng tiền: <span id="totalPrices">0</span>
-                    <span id="unitPrice">VNĐ</span>
-                </div>
-                <div class="card-footer">
-                    <button class="btn btn-danger" id="btn-order">Đặt hàng</button>
-                </div>
-            </div>
-        </div>
+      <c:if test="${model.size() > 0}">
+          <div class="row gx-4 gx-lg-5">
+              <div class="col-lg-8 align-items-center">
+              </div>
+              <div class="col-lg-4 card">
+                  <div class="card-header">
+                      <h3>Đặt hàng</h3>
+                  </div>
+                  <div class="card-body">
+                      Tổng tiền: <span id="totalPrices">0</span>
+                      <span id="unitPrice">VNĐ</span>
+                  </div>
+                  <div class="card-footer">
+                      <button class="btn btn-danger" id="btn-order">Đặt hàng</button>
+                  </div>
+              </div>
+          </div>
+      </c:if>
 
     </div>
     <script type="text/javascript">
@@ -97,12 +105,13 @@
                 dataType: 'json',
                 success: function (result) {
                     const checkbox = $('#checkbox_'+id)[0];
+                    const price = $('#price_'+id);
                     if (checkbox.checked) {
-                        let change = parseFloat(result.prices) - parseFloat($('#price_'+id).text());
+                        let change = parseFloat(result.prices) - parseFloat(price.text());
                         totalPrices.text(parseFloat(totalPrices.text()) + change);
                     }
                     $('#quantity_'+id).text(result.quantity);
-                    $('#price_'+id).text(result.prices);
+                    price.text(result.prices);
 
                 },
                 error: (error) => console.log(error)
@@ -153,12 +162,13 @@
                 if (check_boxes[i].checked) {
                     let id = check_boxes[i].id;
                     items += id.slice(id.indexOf('_')+1, id.length);
-                    if (i < check_boxes.length - 1) {
-                        items += ',';
-                    }
+                    items += ',';
                 }
             }
-            window.location = '/dat-hang?items-id='+items;
+            if (items !== '') {
+                let url = '/dat-hang?items-id='+items.substring(0, items.length-1);
+                window.location = url;
+            }
         });
     </script>
 </body>

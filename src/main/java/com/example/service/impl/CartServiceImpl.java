@@ -5,6 +5,7 @@ import com.example.converter.BillDetailConverter;
 import com.example.converter.CartConverter;
 import com.example.dto.BillDetailDto;
 import com.example.dto.CartDto;
+import com.example.entity.BillDetailEntity;
 import com.example.entity.CartEntity;
 import com.example.repository.CartRepository;
 import com.example.repository.UserRepository;
@@ -64,6 +65,13 @@ public class CartServiceImpl implements CartService {
     @Override
     public List<BillDetailDto> findItems(String username) {
         CartEntity cart = cartRepository.findOneByOwner(userRepository.findOneByUsernameAndStatus(username, SystemConstant.ACTIVE));
-        return billDetailConverter.toDtos(cart.getItems());
+        List<BillDetailEntity> itemEntities = cart.getItems();
+        List<BillDetailDto> dtos = new ArrayList<>();
+        itemEntities.forEach(item -> {
+           if (item.getBill() == null) {
+               dtos.add(billDetailConverter.toDto(item));
+           }
+        });
+        return dtos;
     }
 }

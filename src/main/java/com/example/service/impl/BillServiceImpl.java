@@ -8,9 +8,11 @@ import com.example.entity.BillEntity;
 import com.example.repository.BillRepository;
 import com.example.service.BillDetailService;
 import com.example.service.BillService;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -60,5 +62,13 @@ public class BillServiceImpl implements BillService {
         } else {
             return billConverter.toDto(entity);
         }
+    }
+
+    @Override
+    public List<BillDto> findAll(Sort sort) {
+        List<BillDto> dtos = new ArrayList<>();
+        List<BillEntity> entities = billRepository.findAll(sort);
+        entities.forEach(entity -> dtos.add(billConverter.toDto(entity)));
+        return dtos;
     }
 }

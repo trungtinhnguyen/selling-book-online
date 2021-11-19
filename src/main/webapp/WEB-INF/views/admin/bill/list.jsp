@@ -54,53 +54,5 @@
         </table>
     </div>
 </div>
-<script type="text/javascript">
-    function deleteUser (id) {
-        Swal.fire ({
-            title: "Xác nhận",
-            text: "Bạn có chắc chắn xóa người dùng này",
-            icon: "warning",
-            showCancelButton: true,
-            cancelButtonColor: '#979797',
-            cancelButtonText: "Hủy",
-            confirmButtonText: "Xoá",
-            confirmButtonColor: '#ff0000'
-        }).then(function (result) {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: '${deleteUserApi}',
-                    type: 'DELETE',
-                    contentType: 'application/json',
-                    data: JSON.stringify(id),
-                    success: function () {
-                        let title = "Xóa người dùng thành công!";
-                        let type = "success";
-                        let text = "Xóa người dùng thành công";
-                        let url = window.location.toString();
-                        showNotification(title, text, type, url);
-                    },
-                    error: function (error) {
-                        console.log(error);
-                    }
-                })
-            }
-        });
-    }
-    function showNotification(title, message, type, url) {
-        Swal.fire({
-            title: title,
-            text: message,
-            icon: type,
-            confirmButtonText: "Đóng",
-            closeOnConfirm: true,
-            allowEscapeKey: false,
-            allowOutsideClick: false
-        }).then(function (result) {
-            if (result.isConfirmed) {
-                window.location.href = url;
-            }
-        })
-    }
-</script>
 </body>
 </html>

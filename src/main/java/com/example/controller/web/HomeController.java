@@ -8,6 +8,9 @@ import com.example.service.BookService;
 import com.example.service.CategoryService;
 import com.example.service.PublisherService;
 import com.example.util.MessageUtils;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -20,8 +23,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller ("webHomeController")
@@ -38,8 +42,31 @@ public class HomeController {
     }
 
     @RequestMapping (value = "/trang-chu", method = RequestMethod.GET)
-    public ModelAndView homePage (HttpSession session) {
-        return new ModelAndView("web/home");
+    public ModelAndView homePage () {
+        ModelAndView view = new ModelAndView("web/home");
+        Sort sort = new Sort(Sort.Direction.DESC, "imputedDate");
+        Pageable pageable = new PageRequest(0, 10, sort);
+        BookDto bestSeller = bookService.findBestSeller();
+        List<BookDto> books = bookService.findAll(pageable);
+        view.addObject("bestSeller", bestSeller);
+        view.addObject(SystemConstant.MODEL, books);
+        return view;
+    }
+
+    @GetMapping (value = "/tim-kiem")
+    public ModelAndView search (HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView view = new ModelAndView("web/search-item");
+        String searchText = request.getParameter("search-text");
+        int page = Integer.parseInt(request.getParameter("page"));
+        int size = Integer.parseInt(request.getParameter("size"));
+        Pageable pageable = new PageRequest(page, size);
+        List<BookDto> model = bookService.search(pageable, searchText);
+        view.addObject(SystemConstant.MODEL, model);
+        Map<String, Integer> param = new HashMap<>();
+        param.put("page", page);
+        param.put("size", size);
+        view.addObject("page", param);
+        return view;
     }
 
     @RequestMapping (value = "/dang-nhap", method = RequestMethod.GET)

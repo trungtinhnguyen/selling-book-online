@@ -4,13 +4,20 @@ import com.example.constant.MessageKey;
 import com.example.converter.BookConverter;
 import com.example.dto.BaseDto;
 import com.example.dto.BookDto;
+import com.example.dto.CategoryDto;
 import com.example.dto.CommentDto;
+import com.example.entity.BillDetailEntity;
 import com.example.entity.BookEntity;
+import com.example.repository.BillDetailRepository;
 import com.example.repository.BookRepository;
 import com.example.service.BookService;
+import com.example.service.CategoryService;
 import com.example.service.CommentService;
-import com.example.util.FileUtils;
 import com.example.util.MessageUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,12 +28,14 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final BookConverter bookConverter;
+    private final BillDetailRepository billDetailRepository;
     private final MessageUtils messageUtils;
     private final CommentService commentService;
 
-    public BookServiceImpl(BookRepository bookRepository, BookConverter bookConverter, MessageUtils messageUtils, CommentService commentService) {
+    public BookServiceImpl(BookRepository bookRepository, BookConverter bookConverter, BillDetailRepository billDetailRepository, MessageUtils messageUtils, CommentService commentService) {
         this.bookConverter = bookConverter;
         this.bookRepository = bookRepository;
+        this.billDetailRepository = billDetailRepository;
         this.messageUtils = messageUtils;
         this.commentService = commentService;
     }
@@ -74,12 +83,73 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookDto> findAll() {
-       List<BookDto> results = new ArrayList<>();
-       List<BookEntity> entities = bookRepository.findAll();
-       entities.forEach(entity -> {
-           results.add(bookConverter.toDto(entity));
+        List<BookDto> results = new ArrayList<>();
+        List<BookEntity> entities = bookRepository.findAll();
+        entities.forEach(entity -> {
+            results.add(bookConverter.toDto(entity));
+        });
+        return results;
+    }
+
+    @Override
+    public List<BookDto> findAll(Pageable pageable) {
+        List<BookDto> results = new ArrayList<>();
+        Page<BookEntity> page = bookRepository.findAll(pageable);
+        List<BookEntity> entities = page.getContent();
+        entities.forEach(entity -> results.add(bookConverter.toDto(entity)));
+        return results;
+    }
+
+    @Override
+    public List<BookDto> search(Pageable pageable, String searchText) {
+       List<BookEntity> books = bookRepository.findByNameContains(searchText);
+       List<BookDto> result = new ArrayList<>();
+        books.forEach(book -> result.add(bookConverter.toDto(book)));
+//       List<CategoryDto> categories = categoryService.findAll();
+//       books.forEach(book -> {
+//            if (book.getName().contains(searchText)) {
+//                result.add(book);
+//            } else {
+//                for (CategoryDto category : categories) {
+//                    if (category.getCode().equals(book.getCategoryCode()) && category.getName().contains(searchText)) {
+//                        result.add(book);
+//                        break;
+//                    }
+//                }
+//            }
+//       });
+       return result;
+    }
+
+    @Override
+    public BookDto findBestSeller() {
+        BookDto result;
+       List<BillDetailEntity> billDetails = billDetailRepository.findAll();
+        Map<Long, Integer> map = new HashMap<>();
+        billDetails.forEach(billDetail -> {
+           if (billDetail.getBill() != null) {
+               if (map.containsKey(billDetail.getBookIsBought().getId())) {
+                   map.put(billDetail.getBookIsBought().getId(), map.get(billDetail.getBookIsBought().getId())+billDetail.getQuantity());
+               } else {
+                   map.put(billDetail.getBookIsBought().getId(), billDetail.getQuantity());
+               }
+           }
        });
-       return results;
+        if (map.isEmpty()) {
+            List<BookDto> books = findAll(new PageRequest(0,(int)bookRepository.count(), new Sort(Sort.Direction.DESC, "price")));
+            result = books.get(0);
+        } else {
+            int max = 0;
+            long bestSeller = 0;
+            for (Map.Entry<Long, Integer> element : map.entrySet()) {
+                if(element.getValue() > max) {
+                    max = element.getValue();
+                    bestSeller = element.getKey();
+                }
+            }
+            result = bookConverter.toDto(bookRepository.findOne(bestSeller));
+        }
+        return result;
     }
 
     @Override

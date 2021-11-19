@@ -55,17 +55,14 @@
       <tr>
         <th>Họ tên:</th>
         <td><span>${user.fullName}</span></td>
-        <td><a class="nav-link" href="#"><i class="fas fa-edit"></i> </a></td>
       </tr>
       <tr>
         <th>Địa chỉ nhận hàng:</th>
         <td><span>${user.address}</span></td>
-        <td><a class="nav-link" href="#"><i class="fas fa-edit"></i> </a></td>
       </tr>
       <tr>
         <th>Số điện thoại nhận hàng:</th>
         <td><span>${user.tell}</span></td>
-        <td><a class="nav-link" href="#"><i class="fas fa-edit"></i> </a></td>
       </tr>
     </table>
     <input type="hidden" id="size" value="${model.size()}">

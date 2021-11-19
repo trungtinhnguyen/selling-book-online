@@ -5,20 +5,34 @@
   Time: 23:23
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
+<%@ include file="/common/taglibs.jsp"%>
 <html>
 <head>
-    <title>Home page</title>
+    <meta charset="UTF-8"/>
+    <title>Trang chủ</title>
 </head>
 <body>
 <div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-end mt-2 mb-1">
+        <div class="col-lg-4">
+            <div class="w-100">
+               <form action="<c:url value="/tim-kiem"/>" method="get">
+                   <input type="text" name="search-text" class="nav-item form-control d-inline w-75" placeholder="Tìm kiếm"/>
+                   <button class="btn btn-none-border" id="btn-search" type="submit"><i class="fas fa-search"></i></button>
+                   <input type="hidden" name="page" id="page" value="0"/>
+                   <input type="hidden" name="size" id="size" value="20"/>
+               </form>
+            </div>
+        </div>
+    </div>
     <!-- Heading Row-->
     <div class="row gx-4 gx-lg-5 align-items-center my-5">
-        <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0" src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="..." /></div>
+        <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0" src="${bestSeller.thumbnail}" alt="${bestSeller.name}" /></div>
         <div class="col-lg-5">
-            <h1 class="font-weight-light">Business Name or Tagline</h1>
-            <p>This is a template that is great for small businesses. It doesn't have too much fancy flare to it, but it makes a great use of the standard Bootstrap core components. Feel free to use this template for any project you want!</p>
-            <a class="btn btn-primary" href="#!">Call to Action!</a>
+            <h1 class="font-weight-light">${bestSeller.name}</h1>
+            <p>${bestSeller.description}</p>
+            <a class="btn btn-primary" href="<c:url value="/sach?id=${bestSeller.id}"/>">Chi tiết</a>
         </div>
     </div>
     <!-- Call to Action-->
@@ -27,33 +41,24 @@
     </div>
     <!-- Content Row-->
     <div class="row gx-4 gx-lg-5">
-        <div class="col-md-4 mb-5">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h2 class="card-title">Card One</h2>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
+        <c:forEach var="book" items="${model}">
+            <div class="col-md-6 mb-5">
+                <div class="card h-100">
+                    <div class="card-body container">
+                        <div class="row align-items-start">
+                            <div class="col-lg-4">
+                                <img class="img-fluid" src="${book.thumbnail}"/>
+                            </div>
+                            <div class="col-lg-8">
+                                <h2 class="card-title">${book.name}</h2>
+                                <p class="card-text">${book.description}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer"><a class="btn btn-primary btn-sm" href="<c:url value="/sach?id=${book.id}"/>">Chi tiết</a></div>
                 </div>
-                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>
             </div>
-        </div>
-        <div class="col-md-4 mb-5">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h2 class="card-title">Card Two</h2>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod tenetur ex natus at dolorem enim! Nesciunt pariatur voluptatem sunt quam eaque, vel, non in id dolore voluptates quos eligendi labore.</p>
-                </div>
-                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-5">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h2 class="card-title">Card Three</h2>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
-                </div>
-                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>
-            </div>
-        </div>
+        </c:forEach>
     </div>
 </div>
 </body>

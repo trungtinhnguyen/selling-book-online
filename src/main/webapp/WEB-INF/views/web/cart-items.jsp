@@ -14,7 +14,7 @@
     <title>Giỏ hàng</title>
 </head>
 <body>
-    <div class="container px-4 px-lg-5 h-100">
+    <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 align-items-center my-5">
             <div class="col-lg-5">
                 <h1><span><i class="fas fa-shopping-cart"></i> </span> Giỏ hàng</h1>

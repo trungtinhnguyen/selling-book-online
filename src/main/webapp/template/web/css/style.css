@@ -52,3 +52,20 @@ a {
     position: absolute;
     right: 30px;
 }
+
+.btn-none-border {
+    border: 0;
+    outline: none;
+    color: #333333;
+    font-size: 22px;
+}
+
+.footer {
+    position: relative;
+    bottom: -100%;
+
+}
+
+.price {
+    font-size: 30px;
+}

@@ -20,8 +20,8 @@
             <img class="img-fluid item-img" src="${model.thumbnail}" alt="${model.name}">
         </div>
         <div class="col-md-6">
-            <h3 class="my-3">Mô tả</h3>
-            <span>${model.description}</span>
+            <h3 class="my-3">Giá</h3>
+            <span class="text-danger price">${model.price} VNĐ</span>
             <h3 class="my-3">Thông tin chi tiết</h3>
             <ul class=" list-unstyled">
                 <table class="table">

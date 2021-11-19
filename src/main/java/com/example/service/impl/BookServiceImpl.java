@@ -4,14 +4,13 @@ import com.example.constant.MessageKey;
 import com.example.converter.BookConverter;
 import com.example.dto.BaseDto;
 import com.example.dto.BookDto;
-import com.example.dto.CategoryDto;
 import com.example.dto.CommentDto;
 import com.example.entity.BillDetailEntity;
 import com.example.entity.BookEntity;
 import com.example.repository.BillDetailRepository;
 import com.example.repository.BookRepository;
+import com.example.repository.CategoryRepository;
 import com.example.service.BookService;
-import com.example.service.CategoryService;
 import com.example.service.CommentService;
 import com.example.util.MessageUtils;
 import org.springframework.data.domain.Page;
@@ -29,13 +28,15 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookConverter bookConverter;
     private final BillDetailRepository billDetailRepository;
+    private final CategoryRepository categoryRepository;
     private final MessageUtils messageUtils;
     private final CommentService commentService;
 
-    public BookServiceImpl(BookRepository bookRepository, BookConverter bookConverter, BillDetailRepository billDetailRepository, MessageUtils messageUtils, CommentService commentService) {
+    public BookServiceImpl(BookRepository bookRepository, BookConverter bookConverter, BillDetailRepository billDetailRepository, CategoryRepository categoryRepository, MessageUtils messageUtils, CommentService commentService) {
         this.bookConverter = bookConverter;
         this.bookRepository = bookRepository;
         this.billDetailRepository = billDetailRepository;
+        this.categoryRepository = categoryRepository;
         this.messageUtils = messageUtils;
         this.commentService = commentService;
     }
@@ -159,5 +160,13 @@ public class BookServiceImpl implements BookService {
         long[] commentIds =  comments.stream().mapToLong(BaseDto::getId).toArray();
         commentService.delete(commentIds);
         bookRepository.delete(id);
+    }
+
+    @Override
+    public List<BookDto> findByCategory(String categoryCode) {
+        List<BookDto> dtos = new ArrayList<>();
+        List<BookEntity> entities = bookRepository.findByCategory(categoryRepository.findOneByCode(categoryCode));
+        entities.forEach(entity -> dtos.add(bookConverter.toDto(entity)));
+        return dtos;
     }
 }

@@ -9,6 +9,7 @@ public interface BookService {
     BookDto findOne (Long id);
     BookDto save(BookDto dto);
     void delete(long id);
+    List<BookDto> findByCategory(String categoryCode);
     List<BookDto> findAll();
     List<BookDto> findAll(Pageable pageable);
     List<BookDto> search (Pageable pageable, String searchText);

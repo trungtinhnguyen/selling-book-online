@@ -48,6 +48,9 @@ public class HomeController {
         Pageable pageable = new PageRequest(0, 10, sort);
         BookDto bestSeller = bookService.findBestSeller();
         List<BookDto> books = bookService.findAll(pageable);
+        if (books.contains(bestSeller)) {
+            books.remove(bestSeller);
+        }
         view.addObject("bestSeller", bestSeller);
         view.addObject(SystemConstant.MODEL, books);
         return view;
@@ -108,15 +111,18 @@ public class HomeController {
     public ModelAndView bookDetailsPage (@RequestParam (name = "id") long id) {
         ModelAndView view = new ModelAndView("web/book-detail");
         BookDto model = bookService.findOne(id);
+
         Map<String, String> map = new HashMap<>();
         if (model.getId() == null) {
-            // return not found page
             view.setViewName("redirect:/error/404");
         } else {
+            List<BookDto> relatedBook = bookService.findByCategory(model.getCategoryCode());
             CategoryDto category = categoryService.findByCode(model.getCategoryCode());
             PublisherDto publisher = publisherService.findByCode(model.getPublisherCode());
+            relatedBook.remove(model);
             map.put(category.getCode(), category.getName());
             map.put(publisher.getCode(), publisher.getName());
+            view.addObject("related", relatedBook);
             view.addObject("map", map);
             view.addObject(SystemConstant.MODEL, model);
         }

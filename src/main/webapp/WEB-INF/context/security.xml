@@ -12,7 +12,6 @@
         <intercept-url pattern="/gio-hang" access="hasAnyRole('ADMIN', 'CUSTOMER')"/>
 
         <access-denied-handler error-page="/access-denied"/>
-
         <form-login login-page="/dang-nhap"
                     username-parameter="j_username"
                     password-parameter="j_password"
@@ -20,9 +19,10 @@
                     authentication-success-handler-ref="customSuccessHandler"
                     authentication-failure-url="/dang-nhap?message=incorrect_login"/>
         <session-management invalid-session-url="/dang-nhap?sessionTimeOut"/>
-        <logout delete-cookies="JSESSIONID"/>
+        <logout logout-success-url="/"
+                invalidate-session="true"
+                delete-cookies="JSESSIONID"/>
     </http>
-
     <authentication-manager>
         <authentication-provider user-service-ref="customUserDetailService">
             <password-encoder ref="bcryptEncoder"/>

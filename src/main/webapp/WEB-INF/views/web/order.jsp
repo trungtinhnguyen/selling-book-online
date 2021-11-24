@@ -20,7 +20,7 @@
       <h1><span><i class="fas fa-cart-arrow-down"></i> </span> Đơn hàng</h1>
     </div>
   </div>
-  <div class="row gx-4 gx-lg-5">
+  <div class="row gx-4 gx-lg-5 mb-5">
     <table class="table">
       <thead>
       <th></th>
@@ -49,9 +49,9 @@
       </tbody>
     </table>
   </div>
-  <div class="row gx-4 gx-lg-5 mb-5 mt-3">
-    <h3><span><i class="far fa-address-card"></i> </span>Xác nhận thông tin giao hàng</h3>
-    <table>
+  <div class="row gx-4 gx-lg-5 mb-5 mt-3 justify-content-center">
+    <h3><span><i class="far fa-address-card  me-2"></i> </span>Xác nhận thông tin giao hàng</h3>
+    <table class="col-lg-10 mt-3">
       <tr>
         <th>Họ tên:</th>
         <td><span>${user.fullName}</span></td>

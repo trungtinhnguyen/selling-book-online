@@ -36,6 +36,7 @@ public class BookConverter {
         dto.setPublisherCode(entity.getPublisher().getCode());
         dto.setPublishedYear(entity.getPublishedYear());
         dto.setImputedDate(new Date(entity.getImputedDate()));
+        dto.setQuantity(entity.getQuantity());
         return dto;
     }
     public BookEntity toEntity (BookEntity entity, BookDto dto) {
@@ -47,6 +48,7 @@ public class BookConverter {
         entity.setCategory(categoryRepository.findOneByCode (dto.getCategoryCode()));
         entity.setPublisher(publisherRepository.findOneByCode (dto.getPublisherCode()));
         entity.setPublishedYear(dto.getPublishedYear());
+        entity.setQuantity(dto.getQuantity());
         entity.setImputedDate(dto.getImputedDate().getTime());
         return entity;
     }

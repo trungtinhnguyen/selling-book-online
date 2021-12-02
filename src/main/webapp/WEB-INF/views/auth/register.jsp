@@ -38,7 +38,7 @@
                 <div class="row mb-2">
                     <div class="col-md-6">
                         <div class="form-floating mb-2 mb-md-0">
-                            <input class="form-control" id="inputPassword" name="password" type="password" placeholder="Điền mật khẩu"/>
+                            <input class="form-control" id="inputPassword" name="password" type="password" autocomplete="off" placeholder="Điền mật khẩu"/>
                             <label for="inputPassword">Mật khẩu</label>
                         </div>
                         <div class="m-lg-3 mb-2">
@@ -47,7 +47,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-floating mb-2 mb-md-0">
-                            <input class="form-control" id="inputPasswordConfirm" type="password" placeholder="Nhập lại mật khẩu" />
+                            <input class="form-control" id="inputPasswordConfirm" type="password" autocomplete="off" placeholder="Nhập lại mật khẩu" />
                             <label for="inputPasswordConfirm">Nhập lại mật khẩu</label>
                         </div>
                         <div class="m-lg-3 mb-2">
@@ -119,6 +119,7 @@
                 showNotification(title, message, type, url);
             },
             error: function (error) {
+                console.log(error);
                 let title = "ĐĂNG KÝ KHÔNG THÀNH CÔNG";
                 let message =  "Đã xãy ra lỗi, Vui lòng kiểm tra lại"
                 let type="error";

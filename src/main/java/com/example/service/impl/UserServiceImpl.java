@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> findAll() {
         List<UserDto> dtos = new ArrayList<>();
-        List<UserEntity> entities = userRepository.findAll();
+        List<UserEntity> entities = userRepository.findByStatus(SystemConstant.ACTIVE);
         entities.forEach(entity -> {
             dtos.add(userConverter.toDto(entity));
         });
